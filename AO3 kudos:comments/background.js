@@ -2,6 +2,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.clear();
 
   chrome.storage.sync.set({'amount':0}, () => {});
+  chrome.storage.sync.set({'links':[]});
   // chrome.storage.sync.get('amount', function(response) {
   //   console.log(response['amount']);
   // })
@@ -16,18 +17,24 @@ chrome.runtime.onConnect.addListener(function(port) {
       console.log(url);
       port.postMessage({response: url}); 
 
-      chrome.storage.sync.get(['amount'], function(response) {
-        var cur = response['amount']+1;
-
-        chrome.storage.sync.set({['amount']:cur}, function(){
-          console.log("i have changed the current amount");
+        // chrome.storage.sync.set({[cur]: [url]}, function(){
+        //   console.log("executed!");
+        // });
+        chrome.storage.sync.get('links', function(response) {
+          if (response['links'].includes(url) == false) {
+            response['links'].push(url);
+            chrome.storage.sync.set({'links':response['links']}, () => {});
+            chrome.storage.sync.get(['amount'], function(response) {
+              var cur = response['amount']+1;
+      
+              chrome.storage.sync.set({['amount']:cur}, function(){
+                console.log("i have changed the current amount");
+              });
+            });
+            
+          }
+          
         });
-
-        chrome.storage.sync.set({[cur]: [url]}, function(){
-          console.log("executed!");
-        });
-
-      });
 
       chrome.storage.sync.get(null, function(data) {console.info(data)});
 

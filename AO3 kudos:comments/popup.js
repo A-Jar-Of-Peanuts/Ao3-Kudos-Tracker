@@ -7,9 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get('amount', function(result) {
       am = result['amount'];
       console.log("current amount " + am);
-      for(let i = 1; i<=am; i++) {
-        chrome.storage.sync.get([i+""], function(r) {
-          add("<br>" + r[i]);
+      for(let i = 0; i<am; i++) {
+        // chrome.storage.sync.get([i+""], function(r) {
+        //   add("<br>" + r[i]);
+        // });
+        chrome.storage.sync.get('links', function(r) {
+          add("<br>" + r['links'][i]);
         });
       } 
     });
