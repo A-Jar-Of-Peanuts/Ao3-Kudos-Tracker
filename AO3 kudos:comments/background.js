@@ -1,8 +1,12 @@
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.clear();
-
-  chrome.storage.sync.set({'amount':0}, () => {});
-  chrome.storage.sync.set({'links':[]});
+  //chrome.storage.sync.clear();
+  chrome.storage.sync.get('amount', function(response) {
+    if (response == null) {
+      chrome.storage.sync.set({'amount':0}, () => {});
+      chrome.storage.sync.set({'links':[]});
+    }
+  });
+  
   // chrome.storage.sync.get('amount', function(response) {
   //   console.log(response['amount']);
   // })
