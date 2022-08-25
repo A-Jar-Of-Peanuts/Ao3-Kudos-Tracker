@@ -8,10 +8,6 @@ chrome.runtime.onInstalled.addListener(() => {
     //}
   });
   
-  // chrome.storage.sync.get('amount', function(response) {
-  //   console.log(response['amount']);
-  // })
-  //chrome.storage.sync.get(null, function(data) {console.info(data)});
 });
 
 chrome.runtime.onConnect.addListener(function(port) {
@@ -22,9 +18,6 @@ chrome.runtime.onConnect.addListener(function(port) {
       console.log(url);
       port.postMessage({response: url}); 
 
-        // chrome.storage.sync.set({[cur]: [url]}, function(){
-        //   console.log("executed!");
-        // });
         chrome.storage.sync.get('links', function(response) {
           if (response['links'].includes(url) == false) {
             response['links'].push(url);
@@ -48,9 +41,6 @@ chrome.runtime.onConnect.addListener(function(port) {
 
       chrome.storage.sync.get(null, function(data) {console.info(data)});
 
-      // chrome.storage.sync.get(cur + "", function(response) {
-      //   console.log(response[cur]);
-      // });
   });
     
   });
